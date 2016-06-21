@@ -1,0 +1,14 @@
+[package]
+name = "colorparse"
+version = "1.0.0"
+authors = ["Josh Triplett <josh@joshtriplett.org>"]
+license = "MIT/Apache-2.0"
+readme = "README.md"
+keywords = ["colour", "colourparse", "ansi_term", "git", "style"]
+repository = "https://github.com/joshtriplett/colorparse"
+homepage = "https://github.com/joshtriplett/colorparse"
+description = "Parse color configuration strings (in Git syntax) into ansi_term::Style objects."
+
+[dependencies]
+ansi_term = "0.7.4"
+quick-error = "1.0.0"
