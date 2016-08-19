@@ -73,15 +73,15 @@ pub fn parse(s: &str) -> Result<Style, Error> {
     let mut reverse = false;
     for word in s.split_whitespace() {
         match word.to_lowercase().as_ref() {
-            "nobold" => { bold = false; }
+            "nobold"|"no-bold" => { bold = false; }
             "bold" => { bold = true; }
-            "nodim" => { dim = false; }
+            "nodim"|"no-dim" => { dim = false; }
             "dim" => { dim = true; }
-            "noul" => { ul = false; }
+            "noul"|"no-ul" => { ul = false; }
             "ul" => { ul = true; }
-            "noblink" => { blink = false; }
+            "noblink"|"no-blink" => { blink = false; }
             "blink" => { blink = true; }
-            "noreverse" => { reverse = false; }
+            "noreverse"|"no-reverse" => { reverse = false; }
             "reverse" => { reverse = true; }
             w => {
                 if let Ok(color) = parse_color(w) {
@@ -152,6 +152,7 @@ mod tests {
         test!("bold cyan nobold white" => Cyan.on(White));
         test!("bold cyan reverse white nobold" => Cyan.on(White).reverse());
         test!("bold cyan ul white dim" => Cyan.on(White).bold().underline().dimmed());
+        test!("ul cyan white no-ul" => Cyan.on(White));
         test!("blink #050505 white" => RGB(5,5,5).on(White).blink());
     }
 
@@ -182,6 +183,14 @@ mod tests {
         test!("123-1" => UnknownWord "123-1");
         test!("blue1" => UnknownWord "blue1");
         test!("blue-1" => UnknownWord "blue-1");
+        test!("no" => UnknownWord "no");
+        test!("nou" => UnknownWord "nou");
+        test!("noblue" => UnknownWord "noblue");
+        test!("no#123456" => UnknownWord "no#123456");
+        test!("no-" => UnknownWord "no-");
+        test!("no-u" => UnknownWord "no-u");
+        test!("no-green" => UnknownWord "no-green");
+        test!("no-#123456" => UnknownWord "no-#123456");
         test!("#" => UnknownWord "#");
         test!("#12345" => UnknownWord "#12345");
         test!("#1234567" => UnknownWord "#1234567");
