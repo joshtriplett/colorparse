@@ -71,6 +71,8 @@ pub fn parse(s: &str) -> Result<Style, Error> {
     let mut ul = false;
     let mut blink = false;
     let mut reverse = false;
+    let mut italic = false;
+    let mut strike = false;
     for word in s.split_whitespace() {
         match word.to_lowercase().as_ref() {
             "nobold"|"no-bold" => { bold = false; }
@@ -83,6 +85,10 @@ pub fn parse(s: &str) -> Result<Style, Error> {
             "blink" => { blink = true; }
             "noreverse"|"no-reverse" => { reverse = false; }
             "reverse" => { reverse = true; }
+            "noitalic"|"no-italic" => { italic = false; }
+            "italic" => { italic = true; }
+            "nostrike"|"no-strike" => { strike = false; }
+            "strike" => { strike = true; }
             w => {
                 if let Ok(color) = parse_color(w) {
                     if colors == 2 {
@@ -106,6 +112,8 @@ pub fn parse(s: &str) -> Result<Style, Error> {
     if ul { style = style.underline(); }
     if blink { style = style.blink(); }
     if reverse { style = style.reverse(); }
+    if italic { style = style.italic(); }
+    if strike { style = style.strikethrough(); }
     Ok(style)
 }
 
@@ -153,6 +161,8 @@ mod tests {
         test!("bold cyan reverse white nobold" => Cyan.on(White).reverse());
         test!("bold cyan ul white dim" => Cyan.on(White).bold().underline().dimmed());
         test!("ul cyan white no-ul" => Cyan.on(White));
+        test!("italic cyan white" => Cyan.on(White).italic());
+        test!("strike cyan white" => Cyan.on(White).strikethrough());
         test!("blink #050505 white" => RGB(5,5,5).on(White).blink());
     }
 
