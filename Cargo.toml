@@ -10,5 +10,5 @@ homepage = "https://github.com/joshtriplett/colorparse"
 description = "Parse color configuration strings (in Git syntax) into ansi_term::Style objects."
 
 [dependencies]
-ansi_term = "0.7.4"
+ansi_term = "0.8.0"
 quick-error = "1.0.0"
