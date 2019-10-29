@@ -11,4 +11,3 @@ description = "Parse color configuration strings (in Git syntax) into ansi_term:
 
 [dependencies]
 ansi_term = "0.9.0"
-quick-error = "1.0.0"

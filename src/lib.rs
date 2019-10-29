@@ -15,23 +15,29 @@
 extern crate ansi_term;
 use ansi_term::{Color, Style};
 
-#[macro_use]
-extern crate quick_error;
+/// Type for errors returned by the parser.
+#[derive(Debug, PartialEq)]
+pub enum Error {
+    /// An extra color appeared after the foreground and background colors.
+    ExtraColor(String, String),
+    /// An unknown word appeared.
+    UnknownWord(String, String),
+}
 
-quick_error! {
-    /// Type for errors returned by the parser.
-    #[derive(Debug, PartialEq)]
-    pub enum Error {
-        /// An extra color appeared after the foreground and background colors.
-        ExtraColor(s: String, word: String) {
-            display("Error parsing style \"{}\": extra color \"{}\"", s, word)
-        }
-        /// An unknown word appeared.
-        UnknownWord(s: String, word: String) {
-            display("Error parsing style \"{}\": unknown word: \"{}\"", s, word)
+impl std::fmt::Display for Error {
+    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            Self::ExtraColor(s, word) => {
+                write!(fmt, "Error parsing style \"{}\": extra color \"{}\"", s, word)
+            }
+            Self::UnknownWord(s, word) => {
+                write!(fmt, "Error parsing style \"{}\": unknown word: \"{}\"", s, word)
+            }
         }
     }
 }
+
+impl std::error::Error for Error {}
 
 fn parse_color(word: &str) -> Result<Option<Color>, ()> {
     let color = match word {
