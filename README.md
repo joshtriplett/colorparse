@@ -1,3 +1,10 @@
+# Deprecation notice
+
+I recommend using [`anstyle-git`](https://crates.io/crates/anstyle-git) instead
+of this crate. `colorparse` works exclusively with `ansi_term`; `anstyle-git`
+and the `anstyle` family of crates provide an abstraction over several text
+formatting libraries.
+
 # colorparse
 
 `colorparse::parse` parses a color configuration string (in Git syntax)
